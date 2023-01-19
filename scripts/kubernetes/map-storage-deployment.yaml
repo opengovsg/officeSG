@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.27.0 (HEAD)
+    traefik.enable: "true"
+    traefik.http.routers.map-storage.entryPoints: web
+    traefik.http.routers.map-storage.rule: Host(`map-storage.workadventure.localhost`)
+    traefik.http.services.map-storage.loadbalancer.server.port: "3000"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: map-storage
+  name: map-storage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: map-storage
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.27.0 (HEAD)
+        traefik.enable: "true"
+        traefik.http.routers.map-storage.entryPoints: web
+        traefik.http.routers.map-storage.rule: Host(`map-storage.workadventure.localhost`)
+        traefik.http.services.map-storage.loadbalancer.server.port: "3000"
+      creationTimestamp: null
+      labels:
+        io.kompose.service: map-storage
+    spec:
+      containers:
+        - args:
+            - npm
+            - run
+            - start:dev
+          env:
+            - name: DEBUG
+              value: '*'
+            - name: NODE_ENV
+              value: development
+            - name: PROMETHEUS_AUTHORIZATION_TOKEN
+            - name: STARTUP_COMMAND_1
+              value: ../npm-install.sh
+          image: thecodingmachine/nodejs:v2-18-bullseye
+          name: map-storage
+          ports:
+            - containerPort: 9229
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/src/app
+              name: map-storage-claim0
+          workingDir: /usr/src/app/map-storage
+      restartPolicy: Always
+      volumes:
+        - name: map-storage-claim0
+          persistentVolumeClaim:
+            claimName: map-storage-claim0
+status: {}

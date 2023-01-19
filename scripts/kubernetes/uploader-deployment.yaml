@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.27.0 (HEAD)
+    traefik.enable: "true"
+    traefik.http.routers.uploader.entryPoints: web
+    traefik.http.routers.uploader.rule: Host(`uploader.workadventure.localhost`)
+    traefik.http.services.uploader.loadbalancer.server.port: "8080"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: uploader
+  name: uploader
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: uploader
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.27.0 (HEAD)
+        traefik.enable: "true"
+        traefik.http.routers.uploader.entryPoints: web
+        traefik.http.routers.uploader.rule: Host(`uploader.workadventure.localhost`)
+        traefik.http.services.uploader.loadbalancer.server.port: "8080"
+      creationTimestamp: null
+      labels:
+        io.kompose.service: uploader
+    spec:
+      containers:
+        - args:
+            - npm
+            - run
+            - dev
+          env:
+            - name: AWS_ACCESS_KEY_ID
+            - name: AWS_BUCKET
+            - name: AWS_DEFAULT_REGION
+            - name: AWS_ENDPOINT
+            - name: AWS_SECRET_ACCESS_KEY
+            - name: DEBUG
+              value: '*'
+            - name: ENABLE_CHAT_UPLOAD
+            - name: REDIS_DB_NUMBER
+            - name: REDIS_HOST
+            - name: REDIS_PORT
+            - name: STARTUP_COMMAND_1
+              value: ../npm-install.sh
+            - name: UPLOADER_AWS_SIGNED_URL_EXPIRATION
+            - name: UPLOADER_URL
+              value: http://uploader.workadventure.localhost
+            - name: UPLOAD_MAX_FILESIZE
+          image: thecodingmachine/nodejs:v2-18-bullseye
+          name: uploader
+          ports:
+            - containerPort: 9229
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/src/app
+              name: uploader-claim0
+          workingDir: /usr/src/app/uploader
+      restartPolicy: Always
+      volumes:
+        - name: uploader-claim0
+          persistentVolumeClaim:
+            claimName: uploader-claim0
+status: {}

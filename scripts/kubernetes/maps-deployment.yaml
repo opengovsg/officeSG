@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.27.0 (HEAD)
+    traefik.enable: "true"
+    traefik.http.routers.maps.entryPoints: web,traefik
+    traefik.http.routers.maps.rule: Host(`maps.workadventure.localhost`)
+    traefik.http.services.maps.loadbalancer.server.port: "80"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: maps
+  name: maps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: maps
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.27.0 (HEAD)
+        traefik.enable: "true"
+        traefik.http.routers.maps.entryPoints: web,traefik
+        traefik.http.routers.maps.rule: Host(`maps.workadventure.localhost`)
+        traefik.http.services.maps.loadbalancer.server.port: "80"
+      creationTimestamp: null
+      labels:
+        io.kompose.service: maps
+    spec:
+      containers:
+        - env:
+            - name: DEBUG_MODE
+            - name: FRONT_URL
+              value: http://play.workadventure.localhost
+            - name: HOST
+              value: 0.0.0.0
+            - name: NODE_ENV
+              value: development
+            - name: STARTUP_COMMAND_0
+              value: sudo a2enmod headers
+            - name: STARTUP_COMMAND_1
+              value: yarn install
+          image: thecodingmachine/php:8.1-v4-apache-node12
+          name: maps
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: maps-claim0
+      restartPolicy: Always
+      volumes:
+        - name: maps-claim0
+          persistentVolumeClaim:
+            claimName: maps-claim0
+status: {}

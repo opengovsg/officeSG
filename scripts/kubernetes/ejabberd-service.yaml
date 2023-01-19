@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.27.0 (HEAD)
+    traedocfik.http.services.xmpp.loadbalancer.server.port: "5443"
+    traefik.enable: "true"
+    traefik.http.routers.xmpp.entryPoints: web
+    traefik.http.routers.xmpp.rule: Host(`xmpp.workadventure.localhost`)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ejabberd
+  name: ejabberd
+spec:
+  ports:
+    - name: "5443"
+      port: 5443
+      targetPort: 5443
+  selector:
+    io.kompose.service: ejabberd
+status:
+  loadBalancer: {}

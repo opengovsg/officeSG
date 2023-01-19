@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.27.0 (HEAD)
+    traefik.enable: "true"
+    traefik.http.routers.icon.entryPoints: web
+    traefik.http.routers.icon.rule: Host(`icon.workadventure.localhost`)
+    traefik.http.services.icon.loadbalancer.server.port: "8080"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: icon
+  name: icon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: icon
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.27.0 (HEAD)
+        traefik.enable: "true"
+        traefik.http.routers.icon.entryPoints: web
+        traefik.http.routers.icon.rule: Host(`icon.workadventure.localhost`)
+        traefik.http.services.icon.loadbalancer.server.port: "8080"
+      creationTimestamp: null
+      labels:
+        io.kompose.service: icon
+    spec:
+      containers:
+        - image: matthiasluedtke/iconserver:v3.13.0
+          name: icon
+          resources: {}
+      restartPolicy: Always
+status: {}

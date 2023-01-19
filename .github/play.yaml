@@ -52,3 +52,43 @@ jobs:
       #
       - name: Publish
         run: ./scripts/push-image.sh play
+
+      #
+      # Installs Node.js (for figit).
+      #
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 18
+
+      #
+      # Installs Figit.
+      #
+      - name: Install dependencies
+        run: npm install
+
+      #
+      # Install Kubectl and connect to the cluster.
+      #
+      # https://github.com/marketplace/actions/kubernetes-cli-kubectl
+      #
+      #      - uses: tale/kubectl-action@v1
+      #        with:
+      #          base64-kube-config: ${{ secrets.KUBE_CONFIG }}
+      #          kubectl-version: v1.24.2
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v2.0
+        with:
+          version: 'v1.24.0'
+        id: install
+
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name my-demo-cluster --region ap-southeast-1
+      - name: Print kubectl logs for debugging
+        run: |
+          kubectl get services
+      #
+      # Expands the configuration template and deploys the microservice.
+      #
+      - name: Deploy
+        run: npx figit ./scripts/kubernetes/ts-template.yaml --output yaml | kubectl apply -f -

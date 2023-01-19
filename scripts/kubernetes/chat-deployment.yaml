@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.27.0 (HEAD)
+    traefik.enable: "true"
+    traefik.http.routers.chat.entryPoints: web
+    traefik.http.routers.chat.rule: Host(`chat.workadventure.localhost`)
+    traefik.http.services.chat.loadbalancer.server.port: "8080"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: chat
+  name: chat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: chat
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.27.0 (HEAD)
+        traefik.enable: "true"
+        traefik.http.routers.chat.entryPoints: web
+        traefik.http.routers.chat.rule: Host(`chat.workadventure.localhost`)
+        traefik.http.services.chat.loadbalancer.server.port: "8080"
+      creationTimestamp: null
+      labels:
+        io.kompose.service: chat
+    spec:
+      containers:
+        - args:
+            - npm
+            - run
+            - start
+          env:
+            - name: EJABBERD_DOMAIN
+            - name: EJABBERD_WS_URI
+              value: ws://xmpp.workadventure.localhost:5443/ws
+            - name: EMBEDLY_KEY
+            - name: ENABLE_CHAT_UPLOAD
+            - name: ENABLE_OPENID
+            - name: ICON_URL
+              value: http://icon.workadventure.localhost
+            - name: PLAY_URL
+              value: http://play.workadventure.localhost
+            - name: STARTUP_COMMAND_2
+              value: ../npm-install.sh
+            - name: STARTUP_COMMAND_3
+              value: npm run typesafe-i18n
+            - name: UPLOADER_URL
+              value: http://uploader.workadventure.localhost
+          image: thecodingmachine/nodejs:v2-18-bullseye
+          name: chat
+          resources: {}
+          volumeMounts:
+            - mountPath: /usr/src/app
+              name: chat-claim0
+          workingDir: /usr/src/app/chat
+      restartPolicy: Always
+      volumes:
+        - name: chat-claim0
+          persistentVolumeClaim:
+            claimName: chat-claim0
+status: {}

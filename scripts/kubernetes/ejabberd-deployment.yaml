@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.27.0 (HEAD)
+    traedocfik.http.services.xmpp.loadbalancer.server.port: "5443"
+    traefik.enable: "true"
+    traefik.http.routers.xmpp.entryPoints: web
+    traefik.http.routers.xmpp.rule: Host(`xmpp.workadventure.localhost`)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ejabberd
+  name: ejabberd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ejabberd
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.27.0 (HEAD)
+        traedocfik.http.services.xmpp.loadbalancer.server.port: "5443"
+        traefik.enable: "true"
+        traefik.http.routers.xmpp.entryPoints: web
+        traefik.http.routers.xmpp.rule: Host(`xmpp.workadventure.localhost`)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: ejabberd
+    spec:
+      containers:
+        - env:
+            - name: CTL_ON_CREATE
+              value: 'register   '
+            - name: EJABBERD_DOMAIN
+            - name: EJABBERD_PASSWORD
+            - name: EJABBERD_USER
+            - name: JWT_SECRET
+          image: workadventure/ejabberd:v1
+          name: ejabberd
+          ports:
+            - containerPort: 5443
+          resources: {}
+          volumeMounts:
+            - mountPath: /opt/ejabberd/conf/ejabberd.template.yml
+              name: ejabberd-claim0
+      restartPolicy: Always
+      volumes:
+        - name: ejabberd-claim0
+          persistentVolumeClaim:
+            claimName: ejabberd-claim0
+status: {}
