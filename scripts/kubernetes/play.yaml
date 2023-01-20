@@ -183,3 +183,31 @@ spec:
       resource:
         name: memory
         targetAverageUtilization: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: play
+  labels:
+    app.kubernetes.io/name: play
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+    - hosts:
+        - play.officesg.forsg.io
+      secretName: front-tls
+  rules:
+    - host: play.officesg.forsg.io
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: play
+                port:
+                  number: 80
