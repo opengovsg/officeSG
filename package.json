@@ -1,7 +1,8 @@
 {
   "private": true,
   "devDependencies": {
-    "husky": "^7.0.1"
+    "husky": "^7.0.1",
+    "figit": "0.0.8"
   },
   "scripts": {
     "prepare": "husky install || echo 'Husky not found. Maybe you are installing only a subproject.'"
@@ -15,8 +16,5 @@
     "benchmark",
     "uploader",
     "play/packages/iframe-api-typings"
-  ],
-  "devDependencies": {
-    "figit": "0.0.8"
-  }
+  ]
 }
