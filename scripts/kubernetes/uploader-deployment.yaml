@@ -6,7 +6,7 @@ metadata:
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
     traefik.http.routers.uploader.entryPoints: web
-    traefik.http.routers.uploader.rule: Host(`uploader.workadventure.localhost`)
+    traefik.http.routers.uploader.rule: Host(`uploader.officesg.forsg.io`)
     traefik.http.services.uploader.loadbalancer.server.port: "8080"
   creationTimestamp: null
   labels:
@@ -26,7 +26,7 @@ spec:
         kompose.version: 1.27.0 (HEAD)
         traefik.enable: "true"
         traefik.http.routers.uploader.entryPoints: web
-        traefik.http.routers.uploader.rule: Host(`uploader.workadventure.localhost`)
+        traefik.http.routers.uploader.rule: Host(`uploader.officesg.forsg.io`)
         traefik.http.services.uploader.loadbalancer.server.port: "8080"
       creationTimestamp: null
       labels:
@@ -53,7 +53,7 @@ spec:
               value: ../npm-install.sh
             - name: UPLOADER_AWS_SIGNED_URL_EXPIRATION
             - name: UPLOADER_URL
-              value: http://uploader.workadventure.localhost
+              value: http://uploader.officesg.forsg.io
             - name: UPLOAD_MAX_FILESIZE
           image: thecodingmachine/nodejs:v2-18-bullseye
           name: uploader

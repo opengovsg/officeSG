@@ -25,4 +25,4 @@ set -u # or set -o nounset
 : "$VERSION"
 
 export DIR=$1
-docker build -t $CONTAINER_REGISTRY/$DIR:$VERSION --file ./$DIR/Dockerfile ./$DIR
+docker build -t $CONTAINER_REGISTRY/officesg:$DIR-$VERSION --file ./$DIR/Dockerfile ./$DIR

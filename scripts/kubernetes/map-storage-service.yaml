@@ -6,7 +6,7 @@ metadata:
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
     traefik.http.routers.map-storage.entryPoints: web
-    traefik.http.routers.map-storage.rule: Host(`map-storage.workadventure.localhost`)
+    traefik.http.routers.map-storage.rule: Host(`map-storage.officesg.forsg.io`)
     traefik.http.services.map-storage.loadbalancer.server.port: "3000"
   creationTimestamp: null
   labels:

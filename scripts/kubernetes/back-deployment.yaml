@@ -6,7 +6,7 @@ metadata:
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
     traefik.http.routers.back.entryPoints: web
-    traefik.http.routers.back.rule: Host(`api.workadventure.localhost`)
+    traefik.http.routers.back.rule: Host(`api.officesg.forsg.io`)
     traefik.http.services.back.loadbalancer.server.port: "8080"
   creationTimestamp: null
   labels:
@@ -26,7 +26,7 @@ spec:
         kompose.version: 1.27.0 (HEAD)
         traefik.enable: "true"
         traefik.http.routers.back.entryPoints: web
-        traefik.http.routers.back.rule: Host(`api.workadventure.localhost`)
+        traefik.http.routers.back.rule: Host(`api.officesg.forsg.io`)
         traefik.http.services.back.loadbalancer.server.port: "8080"
       creationTimestamp: null
       labels:
@@ -64,7 +64,7 @@ spec:
             - name: PLAYER_VARIABLES_MAX_TTL
             - name: PROMETHEUS_AUTHORIZATION_TOKEN
             - name: PUBLIC_MAP_STORAGE_URL
-              value: http://map-storage.workadventure.localhost
+              value: http://map-storage.officesg.forsg.io
             - name: REDIS_HOST
               value: redis
             - name: SECRET_JITSI_KEY

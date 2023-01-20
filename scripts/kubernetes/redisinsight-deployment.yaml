@@ -6,7 +6,7 @@ metadata:
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
     traefik.http.routers.redisinsight.entryPoints: web
-    traefik.http.routers.redisinsight.rule: Host(`redis.workadventure.localhost`)
+    traefik.http.routers.redisinsight.rule: Host(`redis.officesg.forsg.io`)
     traefik.http.services.redisinsight.loadbalancer.server.port: "8001"
   creationTimestamp: null
   labels:
@@ -25,7 +25,7 @@ spec:
         kompose.version: 1.27.0 (HEAD)
         traefik.enable: "true"
         traefik.http.routers.redisinsight.entryPoints: web
-        traefik.http.routers.redisinsight.rule: Host(`redis.workadventure.localhost`)
+        traefik.http.routers.redisinsight.rule: Host(`redis.officesg.forsg.io`)
         traefik.http.services.redisinsight.loadbalancer.server.port: "8001"
       creationTimestamp: null
       labels:

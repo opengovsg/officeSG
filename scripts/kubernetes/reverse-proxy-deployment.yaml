@@ -5,7 +5,7 @@ metadata:
     kompose.cmd: kompose convert
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
-    traefik.http.routers.traefik.rule: Host(`traefik.workadventure.localhost`)
+    traefik.http.routers.traefik.rule: Host(`traefik.officesg.forsg.io`)
     traefik.http.routers.traefik.service: api@internal
     traefik.port: "8080"
   creationTimestamp: null
@@ -25,7 +25,7 @@ spec:
         kompose.cmd: kompose convert
         kompose.version: 1.27.0 (HEAD)
         traefik.enable: "true"
-        traefik.http.routers.traefik.rule: Host(`traefik.workadventure.localhost`)
+        traefik.http.routers.traefik.rule: Host(`traefik.officesg.forsg.io`)
         traefik.http.routers.traefik.service: api@internal
         traefik.port: "8080"
       creationTimestamp: null

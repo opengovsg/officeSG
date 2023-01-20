@@ -6,7 +6,7 @@ metadata:
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
     traefik.http.routers.chat.entryPoints: web
-    traefik.http.routers.chat.rule: Host(`chat.workadventure.localhost`)
+    traefik.http.routers.chat.rule: Host(`chat.officesg.forsg.io`)
     traefik.http.services.chat.loadbalancer.server.port: "8080"
   creationTimestamp: null
   labels:
@@ -26,7 +26,7 @@ spec:
         kompose.version: 1.27.0 (HEAD)
         traefik.enable: "true"
         traefik.http.routers.chat.entryPoints: web
-        traefik.http.routers.chat.rule: Host(`chat.workadventure.localhost`)
+        traefik.http.routers.chat.rule: Host(`chat.officesg.forsg.io`)
         traefik.http.services.chat.loadbalancer.server.port: "8080"
       creationTimestamp: null
       labels:
@@ -40,20 +40,20 @@ spec:
           env:
             - name: EJABBERD_DOMAIN
             - name: EJABBERD_WS_URI
-              value: ws://xmpp.workadventure.localhost:5443/ws
+              value: ws://xmpp.officesg.forsg.io:5443/ws
             - name: EMBEDLY_KEY
             - name: ENABLE_CHAT_UPLOAD
             - name: ENABLE_OPENID
             - name: ICON_URL
-              value: http://icon.workadventure.localhost
+              value: http://icon.officesg.forsg.io
             - name: PLAY_URL
-              value: http://play.workadventure.localhost
+              value: http://play.officesg.forsg.io
             - name: STARTUP_COMMAND_2
               value: ../npm-install.sh
             - name: STARTUP_COMMAND_3
               value: npm run typesafe-i18n
             - name: UPLOADER_URL
-              value: http://uploader.workadventure.localhost
+              value: http://uploader.officesg.forsg.io
           image: thecodingmachine/nodejs:v2-18-bullseye
           name: chat
           resources: {}

@@ -5,7 +5,7 @@ metadata:
     kompose.cmd: kompose convert
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
-    traefik.http.routers.front.rule: Host(`front.workadventure.localhost`)
+    traefik.http.routers.front.rule: Host(`front.officesg.forsg.io`)
     traefik.http.routers.front.service: front
     traefik.http.routers.play.priority: "1"
     traefik.http.routers.play.rule: HostRegexp(`{domain:.*}`)

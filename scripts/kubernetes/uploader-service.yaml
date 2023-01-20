@@ -6,7 +6,7 @@ metadata:
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
     traefik.http.routers.uploader.entryPoints: web
-    traefik.http.routers.uploader.rule: Host(`uploader.workadventure.localhost`)
+    traefik.http.routers.uploader.rule: Host(`uploader.officesg.forsg.io`)
     traefik.http.services.uploader.loadbalancer.server.port: "8080"
   creationTimestamp: null
   labels:
