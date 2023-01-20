@@ -1,0 +1,135 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.27.0 (HEAD)
+    traefik.enable: "true"
+    traefik.http.routers.front.rule: Host(`front.officesg.forsg.io`)
+    traefik.http.routers.front.service: front
+    traefik.http.routers.play.priority: "1"
+    traefik.http.routers.play.rule: HostRegexp(`{domain:.*}`)
+    traefik.http.routers.play.service: play
+    traefik.http.services.front.loadbalancer.server.port: "8080"
+    traefik.http.services.play.loadbalancer.server.port: "3000"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: play
+  name: play
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: play
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.27.0 (HEAD)
+        traefik.enable: "true"
+        traefik.http.routers.front.rule: Host(`front.officesg.forsg.io`)
+        traefik.http.routers.front.service: front
+        traefik.http.routers.play.priority: "1"
+        traefik.http.routers.play.rule: HostRegexp(`{domain:.*}`)
+        traefik.http.routers.play.service: play
+        traefik.http.services.front.loadbalancer.server.port: "8080"
+        traefik.http.services.play.loadbalancer.server.port: "3000"
+      creationTimestamp: null
+      labels:
+        io.kompose.service: play
+    spec:
+      containers:
+        - args:
+            - npm
+            - run
+            - dev
+          env:
+            - name: ADMIN_API_TOKEN
+            - name: ALLOWED_CORS_ORIGIN
+              value: http://play.officesg.forsg.io
+            - name: API_URL
+              value: back:50051
+            - name: CHAT_URL
+              value: http://chat.officesg.forsg.io
+            - name: DEBUG
+              value: socket:*
+            - name: DEBUG_ERROR_MESSAGES
+              value: "true"
+            - name: DEBUG_MODE
+            - name: DISABLE_ANONYMOUS
+            - name: DISABLE_NOTIFICATIONS
+            - name: EJABBERD_DOMAIN
+            - name: EJABBERD_JWT_SECRET
+            - name: ENABLE_CHAT
+            - name: ENABLE_CHAT_DISCONNECTED_LIST
+            - name: ENABLE_CHAT_ONLINE_LIST
+            - name: ENABLE_CHAT_UPLOAD
+            - name: ENABLE_FEATURE_MAP_EDITOR
+            - name: ENABLE_OPENAPI_ENDPOINT
+              value: "true"
+            - name: HOST
+              value: 0.0.0.0
+            - name: ICON_URL
+              value: http://icon.officesg.forsg.io
+            - name: JITSI_PRIVATE_MODE
+            - name: JITSI_URL
+            - name: MAX_PER_GROUP
+            - name: MAX_USERNAME_LENGTH
+            - name: NODE_ENV
+              value: development
+            - name: OPID_CLIENT_ID
+            - name: OPID_CLIENT_ISSUER
+            - name: OPID_CLIENT_SECRET
+            - name: OPID_LOCALE_CLAIM
+            - name: OPID_LOGOUT_REDIRECT_URL
+            - name: OPID_PROFILE_SCREEN_PROVIDER
+            - name: OPID_PROMPT
+            - name: OPID_SCOPE
+            - name: OPID_USERNAME_CLAIM
+            - name: PLAY_URL
+              value: http://play.officesg.forsg.io
+            - name: PUBLIC_MAP_STORAGE_URL
+              value: http://map-storage.officesg.forsg.io
+            - name: SECRET_KEY
+              value: yourSecretKey
+            - name: SERVER_ICON
+            - name: SERVER_MOTD
+            - name: SERVER_NAME
+            - name: SKIP_RENDER_OPTIMIZATIONS
+            - name: STARTUP_COMMAND_0
+              value: touch /usr/src/app/play/src/messages/generate_request/need_regenerate
+            - name: STARTUP_COMMAND_1
+              value: ../npm-install.sh
+            - name: STARTUP_COMMAND_2
+              value: npm run typesafe-i18n
+            - name: STARTUP_COMMAND_5
+              value: while [ -f /usr/src/app/play/src/messages/generate_request/need_regenerate ]; do sleep 1; done
+            - name: START_ROOM_URL
+            - name: STUN_SERVER
+              value: stun:stun.l.google.com:19302
+            - name: TURN_PASSWORD
+            - name: TURN_SERVER
+              value: turn:coturn.officesg.forsg.io:3478,turns:coturn.officesg.forsg.io:5349
+            - name: TURN_USER
+            - name: UPLOADER_URL
+              value: http://uploader.officesg.forsg.io
+            - name: VITE_URL
+              value: http://front.officesg.forsg.io
+#          image: thecodingmachine/nodejs:v2-18-bullseye
+          image: {{CONTAINER_REGISTRY}}/officesg:play-{{VERSION}}
+          name: play
+          ports:
+            - containerPort: 9229
+          resources: {}
+#          volumeMounts:
+#            - mountPath: /usr/src/app
+#              name: play-claim0
+          workingDir: /usr/src/app/play
+      restartPolicy: Always
+#      volumes:
+#        - name: play-claim0
+#          persistentVolumeClaim:
+#            claimName: play-claim0
+status: {}

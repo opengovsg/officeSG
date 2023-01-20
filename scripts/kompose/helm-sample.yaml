@@ -1,0 +1,812 @@
+---
+# Source: workadventure-chart/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: release-name-workadventure-chart
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+---
+# Source: workadventure-chart/templates/service-back.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-workadventure-chart-back
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: back.office.forsg.io
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: 50051
+      targetPort: direct
+      protocol: TCP
+      name: direct
+    - port: 443
+      targetPort: http
+      protocol: TCP
+      name: https
+  selector:
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/type: "back"
+---
+# Source: workadventure-chart/templates/service-front.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-workadventure-chart-front
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: front.office.forsg.io
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: 443
+      targetPort: http
+      protocol: TCP
+      name: https
+  selector:
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/type: "front"
+---
+# Source: workadventure-chart/templates/service-maps.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-workadventure-chart-maps
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: maps.office.forsg.io
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/type: "maps"
+---
+# Source: workadventure-chart/templates/service-pusher.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-workadventure-chart-pusher
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: pusher.office.forsg.io
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: 443
+      targetPort: http
+      protocol: TCP
+      name: https
+  selector:
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/type: "pusher"
+---
+# Source: workadventure-chart/templates/service-uploader.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-workadventure-chart-uploader
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: uploader.office.forsg.io
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: 443
+      targetPort: http
+      protocol: TCP
+      name: https
+  selector:
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/type: "uploader"
+---
+# Source: workadventure-chart/templates/deployment-back.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-workadventure-chart-back
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: workadventure-chart
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/type: "back"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: workadventure-chart
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/type: "back"
+    spec:
+      serviceAccountName: release-name-workadventure-chart
+      securityContext:
+        {}
+      containers:
+        - name: workadventure-chart
+          securityContext:
+            {}
+          image: "thecodingmachine/workadventure-back:v1.2.7"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: direct
+              containerPort: 50051
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+            {}
+          env:
+            - name: 'DEBUG'
+              value: "*"
+            - name: 'SECRET_KEY'
+              value: "tempSecretKeyNeedsToChange"
+            - name: 'ADMIN_API_TOKEN'
+              value: "123"
+            - name: 'JITSI_ISS'
+              value: ""
+            - name: 'JITSI_URL'
+              value: "meet.jit.si"
+            - name: 'SECRET_JITSI_KEY'
+              value: ""
+              #TODO : ADMIN_API_URL
+
+            - name: KEY
+              value: value
+---
+# Source: workadventure-chart/templates/deployment-front.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "release-name-workadventure-chart-front"
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: workadventure-chart
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/type: "front"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: workadventure-chart
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/type: "front"
+    spec:
+      serviceAccountName: release-name-workadventure-chart
+      securityContext:
+        {}
+      containers:
+        - name: workadventure-chart
+          securityContext:
+            {}
+          #          image: "thecodingmachine/workadventure-front:v1.2.7"
+          image: "thecodingmachine/workadventure-front:v1.14.13"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+            {}
+          env:
+            - name: 'DEBUG_MODE'
+              value: "false"
+            - name: 'API_URL'
+              value: pusher.office.forsg.io
+            - name: 'UPLOADER_URL'
+              value: uploader.office.forsg.io
+            - name: 'ADMIN_URL'
+              value: "office.forsg.io"
+            - name: 'JITSI_URL'
+              value: "meet.jit.si"
+            - name: 'SECRET_JITSI_KEY'
+              value: ""
+            - name: 'JITSI_PRIVATE_MODE'
+              value: "false"
+            - name: 'TURN_SERVER'
+              value: "turn:coturn.workadventu.re:443,turns:coturn.workadventu.re:443"
+            - name: 'TURN_USER'
+              value: "workadventure"
+            - name: 'TURN_PASSWORD'
+              value: "WorkAdventure123"
+            - name: "START_ROOM_URL"
+              value: /_/global/maps.office.forsg.io/Floor0/floor0.json
+            #            MISSING ENV FOR PLAY IMAGE
+            - name: "SECRET_KEY"
+              value: 'SECRET_KEY'
+            - name: "ICON_URL"
+              value: 'https://en.wikipedia.org/wiki/File:WPVG_icon_2016.svg'
+            - name: "CHAT_URL"
+              value: chat.office.forsg.io
+
+            - name: KEY
+              value: value
+---
+# Source: workadventure-chart/templates/deployment-maps.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-workadventure-chart-maps
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: workadventure-chart
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/type: "maps"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: workadventure-chart
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/type: "maps"
+    spec:
+      serviceAccountName: release-name-workadventure-chart
+      securityContext:
+        {}
+      containers:
+        - name: workadventure-chart
+          securityContext:
+            {}
+          image: "thecodingmachine/workadventure-maps:v1.2.7"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+            {}
+          env:
+            - name: 'DEBUG_MODE'
+              value: "false"
+              #TODO : ADMIN_API_URL
+              #TODO : API_URL
+
+            - name: KEY
+              value: value
+---
+# Source: workadventure-chart/templates/deployment-pusher.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-workadventure-chart-pusher
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: workadventure-chart
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/type: "pusher"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: workadventure-chart
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/type: "pusher"
+    spec:
+      serviceAccountName: release-name-workadventure-chart
+      securityContext:
+        {}
+      containers:
+        - name: workadventure-chart
+          securityContext:
+            {}
+          image: "thecodingmachine/workadventure-pusher:v1.2.7"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+            {}
+          env:
+            - name: 'DEBUG'
+              value: "*"
+            - name: 'SECRET_KEY'
+              value: "tempSecretKeyNeedsToChange"
+            - name: 'ADMIN_API_TOKEN'
+              value: "123"
+            - name: 'JITSI_ISS'
+              value: ""
+            - name: 'JITSI_URL'
+              value: "meet.jit.si"
+            - name: 'SECRET_JITSI_KEY'
+              value: ""
+            - name: 'API_URL'
+              value: release-name-workadventure-chart-back:50051
+              #TODO : ADMIN_API_URL
+
+            - name: KEY
+              value: value
+---
+# Source: workadventure-chart/templates/deployment-uploader.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-workadventure-chart-uploader
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: workadventure-chart
+      app.kubernetes.io/instance: release-name
+      app.kubernetes.io/type: "uploader"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: workadventure-chart
+        app.kubernetes.io/instance: release-name
+        app.kubernetes.io/type: "uploader"
+    spec:
+      serviceAccountName: release-name-workadventure-chart
+      securityContext:
+        {}
+      containers:
+        - name: workadventure-chart
+          securityContext:
+            {}
+          image: "thecodingmachine/workadventure-uploader:v1.2.7"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+            {}
+          env:
+            - name: 'DEBUG'
+              value: "*"
+              #TODO : ADMIN_API_URL
+              #TODO : API_URL
+
+            - name: KEY
+              value: value
+---
+# Source: workadventure-chart/templates/hpa-back.yaml
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: release-name-workadventure-chart-back
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: release-name-workadventure-chart-back
+  minReplicas: 1
+  maxReplicas: 100
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: 80
+---
+# Source: workadventure-chart/templates/hpa-front.yaml
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: release-name-workadventure-chart-front
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: release-name-workadventure-chart-front
+  minReplicas: 1
+  maxReplicas: 100
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: 80
+---
+# Source: workadventure-chart/templates/hpa-maps.yaml
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: release-name-workadventure-chart-maps
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: release-name-workadventure-chart-maps
+  minReplicas: 1
+  maxReplicas: 100
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: 80
+---
+# Source: workadventure-chart/templates/hpa-pusher.yaml
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: release-name-workadventure-chart-pusher
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: release-name-workadventure-chart-pusher
+  minReplicas: 1
+  maxReplicas: 100
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: 80
+---
+# Source: workadventure-chart/templates/hpa-uploader.yaml
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: release-name-workadventure-chart-uploader
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: release-name-workadventure-chart-uploader
+  minReplicas: 1
+  maxReplicas: 100
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: 80
+---
+# Source: workadventure-chart/templates/ingress-back.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-workadventure-chart-back
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+    - hosts:
+        - api.office.forsg.io
+      secretName: back-tls
+  rules:
+    - host: api.office.forsg.io
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-workadventure-chart-back
+                port:
+                  number: 80
+---
+# Source: workadventure-chart/templates/ingress-front.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-workadventure-chart-front
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+    - hosts:
+        - play.office.forsg.io
+      secretName: front-tls
+  rules:
+    - host: play.office.forsg.io
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-workadventure-chart-front
+                port:
+                  number: 80
+---
+# Source: workadventure-chart/templates/ingress-maps.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-workadventure-chart-maps
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+    - hosts:
+        - maps.office.forsg.io
+      secretName: maps-tls
+  rules:
+    - host: maps.office.forsg.io
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-workadventure-chart-maps
+                port:
+                  number: 80
+---
+# Source: workadventure-chart/templates/ingress-pusher.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-workadventure-chart-pusher
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+    # Map port 443
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+    # Increase the ELB idle timeout to avoid issues with WebSockets or Server-Sent Events.
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: '3600'
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "3600"
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https
+spec:
+  tls:
+    - hosts:
+        - pusher.office.forsg.io
+      secretName: pusher-tls
+  rules:
+    - host: pusher.office.forsg.io
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-workadventure-chart-pusher
+                port:
+                  number: 80
+---
+# Source: workadventure-chart/templates/ingress-uploader.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-workadventure-chart-uploader
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+    - hosts:
+        - uploader.office.forsg.io
+      secretName: uploader-tls
+  rules:
+    - host: uploader.office.forsg.io
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: release-name-workadventure-chart-uploader
+                port:
+                  number: 80
+---
+# Source: workadventure-chart/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "release-name-workadventure-chart-test-connection"
+  labels:
+    helm.sh/chart: workadventure-chart-0.1.17
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['release-name-workadventure-chart:80']
+  restartPolicy: Never

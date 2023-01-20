@@ -117,18 +117,69 @@ spec:
               value: http://uploader.officesg.forsg.io
             - name: VITE_URL
               value: http://front.officesg.forsg.io
-          image: thecodingmachine/nodejs:v2-18-bullseye
+          #          image: thecodingmachine/nodejs:v2-18-bullseye
+          image: {{CONTAINER_REGISTRY}}/officesg:play-{{VERSION}}
           name: play
           ports:
             - containerPort: 9229
           resources: {}
-          volumeMounts:
-            - mountPath: /usr/src/app
-              name: play-claim0
+          #          volumeMounts:
+          #            - mountPath: /usr/src/app
+          #              name: play-claim0
           workingDir: /usr/src/app/play
       restartPolicy: Always
-      volumes:
-        - name: play-claim0
-          persistentVolumeClaim:
-            claimName: play-claim0
+#      volumes:
+#        - name: play-claim0
+#          persistentVolumeClaim:
+#            claimName: play-claim0
 status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.27.0 (HEAD)
+    traefik.enable: "true"
+    traefik.http.routers.front.rule: Host(`front.officesg.forsg.io`)
+    traefik.http.routers.front.service: front
+    traefik.http.routers.play.priority: "1"
+    traefik.http.routers.play.rule: HostRegexp(`{domain:.*}`)
+    traefik.http.routers.play.service: play
+    traefik.http.services.front.loadbalancer.server.port: "8080"
+    traefik.http.services.play.loadbalancer.server.port: "3000"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: play
+  name: play
+spec:
+  ports:
+    - name: "9231"
+      port: 9231
+      targetPort: 9229
+  selector:
+    io.kompose.service: play
+status:
+  loadBalancer: {}
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: play
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: play
+  minReplicas: 1
+  maxReplicas: 100
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: 80

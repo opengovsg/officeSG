@@ -91,4 +91,4 @@ jobs:
       # Expands the configuration template and deploys the microservice.
       #
       - name: Deploy
-        run: npx figit ./scripts/kubernetes/ts-template.yaml --output yaml | kubectl apply -f -
+        run: npx figit ./scripts/kubernetes/play.yaml --output yaml | kubectl apply -f -
