@@ -9,7 +9,7 @@ name: Deploy Play
 on:
   push:
     branches:
-      - main
+      - develop
     paths:
       - 'play/**'
   workflow_dispatch:
