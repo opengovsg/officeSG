@@ -25,4 +25,4 @@ set -u # or set -o nounset
 : "$VERSION"
 
 export DIR=$1
-docker build --build-arg BUILDPLATFORM=linux/amd64,linux/arm64 -t $CONTAINER_REGISTRY/officesg:$DIR-$VERSION --file ./$DIR/Dockerfile-prod  ./$DIR
+docker build --build-arg BUILDPLATFORM=linux/amd64,linux/arm64 -t $CONTAINER_REGISTRY/officesg:$DIR-$VERSION --file ./$DIR/Dockerfile-prod  ./
