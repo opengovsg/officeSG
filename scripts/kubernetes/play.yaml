@@ -44,7 +44,7 @@ spec:
         - args:
             - npm
             - run
-            - dev
+            - start #change from dev to start
           env:
             - name: ADMIN_API_TOKEN
             - name: ALLOWED_CORS_ORIGIN
@@ -78,7 +78,7 @@ spec:
             - name: MAX_PER_GROUP
             - name: MAX_USERNAME_LENGTH
             - name: NODE_ENV
-              value: development
+              value: production
             - name: OPID_CLIENT_ID
             - name: OPID_CLIENT_ISSUER
             - name: OPID_CLIENT_SECRET
