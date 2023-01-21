@@ -153,15 +153,30 @@ metadata:
   labels:
     io.kompose.service: play
   name: play
+#spec:
+#  ports:
+#    - name: "9231"
+#      port: 9231
+#      targetPort: 9229
+#  selector:
+#    io.kompose.service: play
+#status:
+#  loadBalancer: {}
 spec:
+  type: ClusterIP
   ports:
-    - name: "9231"
-      port: 9231
-      targetPort: 9229
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+    - port: 443
+      targetPort: http
+      protocol: TCP
+      name: https
   selector:
-    io.kompose.service: play
-status:
-  loadBalancer: {}
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/type: "play"
 ---
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
