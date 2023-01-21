@@ -41,10 +41,10 @@ spec:
         io.kompose.service: play
     spec:
       containers:
-        - args:
-            - npm
-            - run
-            - start #change from dev to start
+#        - args:
+#            - npm
+#            - run
+#            - start #change from dev to start
           env:
             - name: ADMIN_API_TOKEN
             - name: ALLOWED_CORS_ORIGIN
