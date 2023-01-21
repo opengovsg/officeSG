@@ -45,7 +45,7 @@ spec:
 #            - npm
 #            - run
 #            - start #change from dev to start
-          env:
+        - env:
             - name: ADMIN_API_TOKEN
             - name: ALLOWED_CORS_ORIGIN
               value: http://play.officesg.forsg.io
