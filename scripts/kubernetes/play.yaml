@@ -121,7 +121,10 @@ spec:
           image: {{CONTAINER_REGISTRY}}/officesg:play-{{VERSION}}
           name: play
           ports:
-            - containerPort: 9229
+#            - containerPort: 9229
+            - name: http
+              containerPort: 80
+              protocol: TCP
           resources: {}
           #          volumeMounts:
           #            - mountPath: /usr/src/app
