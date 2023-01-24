@@ -152,6 +152,8 @@ metadata:
   creationTimestamp: null
   labels:
     io.kompose.service: play
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
   name: play
 #spec:
 #  ports:
@@ -204,7 +206,7 @@ kind: Ingress
 metadata:
   name: play
   labels:
-    app.kubernetes.io/name: play
+    app.kubernetes.io/name: workadventure-chart
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/version: "v1.2.7"
   annotations:
