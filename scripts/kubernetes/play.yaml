@@ -48,7 +48,8 @@ spec:
         - env:
             - name: ADMIN_API_TOKEN
             - name: ALLOWED_CORS_ORIGIN
-              value: http://play.officesg.forsg.io
+#              value: http://play.officesg.forsg.io
+              value: *
             - name: API_URL
               value: back:50051
             - name: CHAT_URL
