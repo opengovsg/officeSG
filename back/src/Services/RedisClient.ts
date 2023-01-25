@@ -16,7 +16,7 @@ const redisClient = REDIS_HOST !== undefined ? createClient(config) : null;
 
 redisClient?.on("error", (err: unknown) => {
     console.error("Error connecting to Redis:", err);
-    console.error(REDIS_HOST);
+    console.error("Redis host is: ", REDIS_HOST);
 });
 redisClient?.on("connect", () => console.log("Redis client is connected"));
 redisClient?.on("reconnecting", () => {
