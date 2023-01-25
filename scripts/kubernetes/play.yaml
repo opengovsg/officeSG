@@ -123,8 +123,8 @@ spec:
           ports:
 #            - containerPort: 9229
             - name: http
-#              containerPort: 9229
-              containerPort: 80
+              containerPort: 9229
+#              containerPort: 80
               protocol: TCP
           resources: {}
           #          volumeMounts:
