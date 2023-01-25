@@ -93,7 +93,7 @@ spec:
           ports:
             #            - containerPort: 9229
             - name: http
-              containerPort: 3000
+              containerPort: 8080
               #              containerPort: 80
               protocol: TCP
           resources: {}
@@ -134,10 +134,10 @@ spec:
   ports:
     - name: http
       port: 80
-      targetPort: 3000
+      targetPort: 8080
     - name: https
       port: 443
-      targetPort: 3000
+      targetPort: 8080
   selector:
     io.kompose.service: back
 status:
