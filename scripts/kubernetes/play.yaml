@@ -53,7 +53,7 @@ spec:
             - name: API_URL
               value: back:50051
             - name: CHAT_URL
-              value: http://chat.officesg.forsg.io
+              value: https://chat.officesg.forsg.io
             - name: DEBUG
               value: socket:*
             - name: DEBUG_ERROR_MESSAGES
@@ -73,7 +73,7 @@ spec:
             - name: HOST
               value: 0.0.0.0
             - name: ICON_URL
-              value: http://icon.officesg.forsg.io
+              value: https://icon.officesg.forsg.io
             - name: JITSI_PRIVATE_MODE
             - name: JITSI_URL
             - name: MAX_PER_GROUP
@@ -90,9 +90,9 @@ spec:
             - name: OPID_SCOPE
             - name: OPID_USERNAME_CLAIM
             - name: PLAY_URL
-              value: http://play.officesg.forsg.io
+              value: https://play.officesg.forsg.io
             - name: PUBLIC_MAP_STORAGE_URL
-              value: http://map-storage.officesg.forsg.io
+              value: https://map-storage.officesg.forsg.io
             - name: SECRET_KEY
               value: yourSecretKey
             - name: SERVER_ICON
@@ -115,9 +115,9 @@ spec:
               value: turn:coturn.officesg.forsg.io:3478,turns:coturn.officesg.forsg.io:5349
             - name: TURN_USER
             - name: UPLOADER_URL
-              value: http://uploader.officesg.forsg.io
+              value: https://uploader.officesg.forsg.io
             - name: VITE_URL
-              value: http://front.officesg.forsg.io
+              value: https://front.officesg.forsg.io
           #          image: thecodingmachine/nodejs:v2-18-bullseye
           image: {{CONTAINER_REGISTRY}}/officesg:play-{{VERSION}}
           name: play
