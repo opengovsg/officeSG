@@ -55,7 +55,7 @@ spec:
         app.kubernetes.io/instance: release-name
         app.kubernetes.io/type: "back"
     spec:
-      serviceAccountName: release-name-workadventure-chart
+#      serviceAccountName: release-name-workadventure-chart
       securityContext:
         {}
       containers:
