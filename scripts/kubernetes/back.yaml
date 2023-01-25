@@ -1,115 +1,167 @@
-# Source: workadventure-chart/templates/service-back.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: back
-  labels:
-    helm.sh/chart: workadventure-chart-0.1.17
-    app.kubernetes.io/name: workadventure-chart
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "v1.2.7"
-    app.kubernetes.io/managed-by: Helm
-  annotations:
-    external-dns.alpha.kubernetes.io/hostname: back.officesg.forsg.io
-spec:
-  type: LoadBalancer
-  ports:
-    - port: 80
-      targetPort: http
-      protocol: TCP
-      name: http
-    - port: 50051
-      targetPort: direct
-      protocol: TCP
-      name: direct
-    - port: 443
-      targetPort: http
-      protocol: TCP
-      name: https
-  selector:
-    app.kubernetes.io/name: workadventure-chart
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/type: "back"
----
-# Source: workadventure-chart/templates/deployment-back.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: back
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.27.0 (HEAD)
+    traefik.enable: "true"
+    traefik.http.routers.front.rule: Host(`api.officesg.forsg.io`)
+    traefik.http.routers.front.service: back
+    traefik.http.routers.back.priority: "1"
+    traefik.http.routers.back.rule: HostRegexp(`{domain:.*}`)
+    traefik.http.routers.back.service: back
+    traefik.http.services.front.loadbalancer.server.port: "8080"
+    traefik.http.services.back.loadbalancer.server.port: "3000"
+  creationTimestamp: null
   labels:
-    helm.sh/chart: workadventure-chart-0.1.17
-    app.kubernetes.io/name: workadventure-chart
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "v1.2.7"
-    app.kubernetes.io/managed-by: Helm
+    io.kompose.service: back
+  name: back
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: workadventure-chart
-      app.kubernetes.io/instance: release-name
-      app.kubernetes.io/type: "back"
+      io.kompose.service: back
+  strategy:
+    type: Recreate
   template:
     metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.27.0 (HEAD)
+        traefik.enable: "true"
+        traefik.http.routers.front.rule: Host(`api.officesg.forsg.io`)
+        traefik.http.routers.front.service: back
+        traefik.http.routers.back.priority: "1"
+        traefik.http.routers.back.rule: HostRegexp(`{domain:.*}`)
+        traefik.http.routers.back.service: back
+        traefik.http.services.front.loadbalancer.server.port: "8080"
+        traefik.http.services.back.loadbalancer.server.port: "3000"
+      creationTimestamp: null
       labels:
-        app.kubernetes.io/name: workadventure-chart
-        app.kubernetes.io/instance: release-name
-        app.kubernetes.io/type: "back"
+        io.kompose.service: back
     spec:
-#      serviceAccountName: release-name-workadventure-chart
-      securityContext:
-        {}
       containers:
-        - name: back
-          securityContext:
-            {}
+        #        - args:
+        #            - npm
+        #            - run
+        #            - start #change from dev to start
+        - env:
+            - name: ADMIN_API_TOKEN
+            - name: ALLOW_ARTILLERY
+              value: "true"
+            - name: BBB_SECRET
+            - name: BBB_URL
+            - name: DEBUG
+              value: '*'
+            - name: EJABBERD_API_URI
+              value: http://ejabberd:5443/api/
+            - name: EJABBERD_DOMAIN
+            - name: EJABBERD_PASSWORD
+            - name: EJABBERD_USER
+            - name: ENABLE_CHAT
+            - name: ENABLE_CHAT_UPLOAD
+            - name: ENABLE_FEATURE_MAP_EDITOR
+            - name: JITSI_ISS
+            - name: JITSI_URL
+            - name: MAP_STORAGE_URL
+              value: map-storage:50053
+            - name: MAX_PER_GROUP
+              value: MAX_PER_GROUP
+            - name: NODE_ENV
+              value: development
+            - name: PLAYER_VARIABLES_MAX_TTL
+            - name: PROMETHEUS_AUTHORIZATION_TOKEN
+            - name: PUBLIC_MAP_STORAGE_URL
+              value: http://map-storage.officesg.forsg.io
+            - name: REDIS_HOST
+              value: redis
+            - name: SECRET_JITSI_KEY
+            - name: SECRET_KEY
+              value: yourSecretKey
+            - name: STARTUP_COMMAND_0
+              value: touch /usr/src/app/back/src/Messages/generate_request/need_regenerate
+            - name: STARTUP_COMMAND_1
+              value: ../npm-install.sh
+            - name: STARTUP_COMMAND_2
+              value: while [ -f /usr/src/app/back/src/Messages/generate_request/need_regenerate ]; do sleep 1; done
+            - name: STORE_VARIABLES_FOR_LOCAL_MAPS
+              value: "true"
+            - name: TURN_STATIC_AUTH_SECRET
+              value: SomeStaticAuthSecret
           image: {{CONTAINER_REGISTRY}}/officesg:back-{{VERSION}}
-          imagePullPolicy: IfNotPresent
+          name: back
           ports:
+            #            - containerPort: 9229
             - name: http
-              containerPort: 8080
+              containerPort: 3000
+              #              containerPort: 80
               protocol: TCP
-            - name: direct
-              containerPort: 50051
-              protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          resources:
-            {}
-          env:
-            - name: 'DEBUG'
-              value: "*"
-            - name: 'SECRET_KEY'
-              value: "tempSecretKeyNeedsToChange"
-            - name: 'ADMIN_API_TOKEN'
-              value: "123"
-            - name: 'JITSI_ISS'
-              value: ""
-            - name: 'JITSI_URL'
-              value: "meet.jit.si"
-            - name: 'SECRET_JITSI_KEY'
-              value: ""
-              #TODO : ADMIN_API_URL
+          resources: {}
+          #          volumeMounts:
+          #            - mountPath: /usr/src/app
+          #              name: back-claim0
+      #          workingDir: /usr/src/app/back
+      restartPolicy: Always
+#      volumes:
+#        - name: back-claim0
+#          persistentVolumeClaim:
+#            claimName: back-claim0
+status: {}
 
-            - name: KEY
-              value: value
 ---
-# Source: workadventure-chart/templates/hpa-back.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.27.0 (HEAD)
+    traefik.enable: "true"
+    traefik.http.routers.front.rule: Host(`front.officesg.forsg.io`)
+    traefik.http.routers.front.service: front
+    traefik.http.routers.back.priority: "1"
+    traefik.http.routers.back.rule: HostRegexp(`{domain:.*}`)
+    traefik.http.routers.back.service: back
+    traefik.http.services.front.loadbalancer.server.port: "8080"
+    traefik.http.services.back.loadbalancer.server.port: "3000"
+  creationTimestamp: null
+  labels:
+    io.kompose.service: back
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+  name: back
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+    - name: https
+      port: 443
+      targetPort: 3000
+  selector:
+    io.kompose.service: back
+status:
+  loadBalancer: {}
+#spec:
+#  type: LoadBalancer
+#  ports:
+#    - port: 80
+#      targetPort: http
+#      protocol: TCP
+#      name: http
+#    - port: 443
+#      targetPort: http
+#      protocol: TCP
+#      name: https
+#  selector:
+#    app.kubernetes.io/name: workadventure-chart
+#    app.kubernetes.io/instance: release-name
+#    app.kubernetes.io/type: "back"
+---
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: back
-  labels:
-    helm.sh/chart: workadventure-chart-0.1.17
-    app.kubernetes.io/name: workadventure-chart
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/version: "v1.2.7"
-    app.kubernetes.io/managed-by: Helm
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -126,3 +178,31 @@ spec:
       resource:
         name: memory
         targetAverageUtilization: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: back
+  labels:
+    app.kubernetes.io/name: workadventure-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "v1.2.7"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+    - hosts:
+        - back.officesg.forsg.io
+      secretName: front-tls
+  rules:
+    - host: back.officesg.forsg.io
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: back
+                port:
+                  number: 80
