@@ -74,7 +74,7 @@ spec:
             - name: PUBLIC_MAP_STORAGE_URL
               value: http://map-storage.officesg.forsg.io
             - name: REDIS_HOST
-              value: redis
+              value: back-redis.default.svc.cluster.local
             - name: SECRET_JITSI_KEY
             - name: SECRET_KEY
               value: yourSecretKey
