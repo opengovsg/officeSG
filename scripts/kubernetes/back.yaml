@@ -78,12 +78,12 @@ spec:
             - name: SECRET_JITSI_KEY
             - name: SECRET_KEY
               value: yourSecretKey
-            - name: STARTUP_COMMAND_0
-              value: touch /usr/src/app/back/src/Messages/generate_request/need_regenerate
-            - name: STARTUP_COMMAND_1
-              value: ../npm-install.sh
-            - name: STARTUP_COMMAND_2
-              value: while [ -f /usr/src/app/back/src/Messages/generate_request/need_regenerate ]; do sleep 1; done
+#            - name: STARTUP_COMMAND_0
+#              value: touch /usr/src/app/back/src/Messages/generate_request/need_regenerate
+#            - name: STARTUP_COMMAND_1
+#              value: ../npm-install.sh
+#            - name: STARTUP_COMMAND_2
+#              value: while [ -f /usr/src/app/back/src/Messages/generate_request/need_regenerate ]; do sleep 1; done
             - name: STORE_VARIABLES_FOR_LOCAL_MAPS
               value: "true"
             - name: TURN_STATIC_AUTH_SECRET
