@@ -123,7 +123,7 @@ spec:
           ports:
 #            - containerPort: 9229
             - name: http
-              containerPort: 9229
+              containerPort: 3000
 #              containerPort: 80
               protocol: TCP
           resources: {}
@@ -162,9 +162,12 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - name: "9231"
-      port: 9231
-      targetPort: 9229
+    - name: http
+      port: 80
+      targetPort: 3000
+    - name: https
+      port: 443
+      targetPort: 3000
   selector:
     io.kompose.service: play
 status:
