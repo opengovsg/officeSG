@@ -123,6 +123,7 @@ spec:
           ports:
 #            - containerPort: 9229
             - name: http
+#              containerPort: 9229
               containerPort: 80
               protocol: TCP
           resources: {}
@@ -158,30 +159,31 @@ metadata:
     app.kubernetes.io/name: workadventure-chart
     app.kubernetes.io/instance: release-name
   name: play
-#spec:
-#  ports:
-#    - name: "9231"
-#      port: 9231
-#      targetPort: 9229
-#  selector:
-#    io.kompose.service: play
-#status:
-#  loadBalancer: {}
 spec:
   type: LoadBalancer
   ports:
-    - port: 80
-      targetPort: http
-      protocol: TCP
-      name: http
-    - port: 443
-      targetPort: http
-      protocol: TCP
-      name: https
+    - name: "9231"
+      port: 9231
+      targetPort: 9229
   selector:
-    app.kubernetes.io/name: workadventure-chart
-    app.kubernetes.io/instance: release-name
-    app.kubernetes.io/type: "play"
+    io.kompose.service: play
+status:
+  loadBalancer: {}
+#spec:
+#  type: LoadBalancer
+#  ports:
+#    - port: 80
+#      targetPort: http
+#      protocol: TCP
+#      name: http
+#    - port: 443
+#      targetPort: http
+#      protocol: TCP
+#      name: https
+#  selector:
+#    app.kubernetes.io/name: workadventure-chart
+#    app.kubernetes.io/instance: release-name
+#    app.kubernetes.io/type: "play"
 ---
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
