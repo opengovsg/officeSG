@@ -77,6 +77,7 @@ spec:
               value: https://icon.officesg.forsg.io
             - name: JITSI_PRIVATE_MODE
             - name: JITSI_URL
+              value: "meet.jit.si"
             - name: MAX_PER_GROUP
             - name: MAX_USERNAME_LENGTH
             - name: NODE_ENV
