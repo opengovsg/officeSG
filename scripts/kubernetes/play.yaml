@@ -51,7 +51,8 @@ spec:
 #              value: http://play.officesg.forsg.io
               value: "*"
             - name: API_URL
-              value: back:50051
+#              value: back:50051
+              value: https://back.officesg.forsg.io
             - name: CHAT_URL
               value: https://chat.officesg.forsg.io
             - name: DEBUG
