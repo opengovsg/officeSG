@@ -52,7 +52,7 @@ spec:
               value: "*"
             - name: API_URL
 #              value: back:50051
-              value: back.officesg.forsg.io:50051
+              value: api.officesg.forsg.io:50051
             - name: CHAT_URL
               value: https://chat.officesg.forsg.io
             - name: DEBUG
