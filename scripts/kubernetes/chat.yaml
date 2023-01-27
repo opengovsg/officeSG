@@ -5,22 +5,22 @@ metadata:
     kompose.cmd: kompose convert
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
-    traefik.http.routers.front.rule: Host(`api.officesg.forsg.io`)
-    traefik.http.routers.front.service: back
-    traefik.http.routers.back.priority: "1"
-    traefik.http.routers.back.rule: HostRegexp(`{domain:.*}`)
-    traefik.http.routers.back.service: back
+    traefik.http.routers.front.rule: Host(`chat.officesg.forsg.io`)
+    traefik.http.routers.front.service: chat
+    traefik.http.routers.chat.priority: "1"
+    traefik.http.routers.chat.rule: HostRegexp(`{domain:.*}`)
+    traefik.http.routers.chat.service: chat
     traefik.http.services.front.loadbalancer.server.port: "8080"
-    traefik.http.services.back.loadbalancer.server.port: "3000"
+    traefik.http.services.chat.loadbalancer.server.port: "3000"
   creationTimestamp: null
   labels:
-    io.kompose.service: back
-  name: back
+    io.kompose.service: chat
+  name: chat
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: back
+      io.kompose.service: chat
   strategy:
     type: Recreate
   template:
@@ -30,15 +30,15 @@ spec:
         kompose.version: 1.27.0 (HEAD)
         traefik.enable: "true"
         traefik.http.routers.front.rule: Host(`api.officesg.forsg.io`)
-        traefik.http.routers.front.service: back
-        traefik.http.routers.back.priority: "1"
-        traefik.http.routers.back.rule: HostRegexp(`{domain:.*}`)
-        traefik.http.routers.back.service: back
+        traefik.http.routers.front.service: chat
+        traefik.http.routers.chat.priority: "1"
+        traefik.http.routers.chat.rule: HostRegexp(`{domain:.*}`)
+        traefik.http.routers.chat.service: chat
         traefik.http.services.front.loadbalancer.server.port: "8080"
-        traefik.http.services.back.loadbalancer.server.port: "3000"
+        traefik.http.services.chat.loadbalancer.server.port: "3000"
       creationTimestamp: null
       labels:
-        io.kompose.service: back
+        io.kompose.service: chat
     spec:
       containers:
         #        - args:
@@ -46,50 +46,24 @@ spec:
         #            - run
         #            - start #change from dev to start
         - env:
-            - name: ADMIN_API_TOKEN
-            - name: ALLOW_ARTILLERY
-              value: "true"
-            - name: BBB_SECRET
-            - name: BBB_URL
-            - name: DEBUG
-              value: '*'
-            - name: EJABBERD_API_URI
-              value: http://ejabberd:5443/api/
             - name: EJABBERD_DOMAIN
-            - name: EJABBERD_PASSWORD
-            - name: EJABBERD_USER
-            - name: ENABLE_CHAT
+            - name: EJABBERD_WS_URI
+              value: ws://xmpp.officesg.forsg.io:5443/ws
+            - name: EMBEDLY_KEY
             - name: ENABLE_CHAT_UPLOAD
-            - name: ENABLE_FEATURE_MAP_EDITOR
-            - name: JITSI_ISS
-            - name: JITSI_URL
-            - name: MAP_STORAGE_URL
-              value: map-storage:50053
-            - name: MAX_PER_GROUP
-              value: MAX_PER_GROUP
-            - name: NODE_ENV
-              value: development
-            - name: PLAYER_VARIABLES_MAX_TTL
-            - name: PROMETHEUS_AUTHORIZATION_TOKEN
-            - name: PUBLIC_MAP_STORAGE_URL
-              value: http://map-storage.officesg.forsg.io
-            - name: REDIS_HOST
-              value: back-redis.default.svc.cluster.local
-            - name: SECRET_JITSI_KEY
-            - name: SECRET_KEY
-              value: yourSecretKey
-#            - name: STARTUP_COMMAND_0
-#              value: touch /usr/src/app/back/src/Messages/generate_request/need_regenerate
-#            - name: STARTUP_COMMAND_1
-#              value: ../npm-install.sh
-#            - name: STARTUP_COMMAND_2
-#              value: while [ -f /usr/src/app/back/src/Messages/generate_request/need_regenerate ]; do sleep 1; done
-            - name: STORE_VARIABLES_FOR_LOCAL_MAPS
-              value: "true"
-            - name: TURN_STATIC_AUTH_SECRET
-              value: SomeStaticAuthSecret
-          image: {{CONTAINER_REGISTRY}}/officesg:back-{{VERSION}}
-          name: back
+            - name: ENABLE_OPENID
+            - name: ICON_URL
+              value: https://icon.officesg.forsg.io
+            - name: PLAY_URL
+              value: https://play.officesg.forsg.io
+            - name: STARTUP_COMMAND_2
+              value: ../npm-install.sh
+            - name: STARTUP_COMMAND_3
+              value: npm run typesafe-i18n
+            - name: UPLOADER_URL
+              value: https://uploader.officesg.forsg.io
+          image: {{CONTAINER_REGISTRY}}/officesg:chat-{{VERSION}}
+          name: chat
           ports:
             #            - containerPort: 9229
             - name: http
@@ -102,13 +76,13 @@ spec:
           resources: {}
           #          volumeMounts:
           #            - mountPath: /usr/src/app
-          #              name: back-claim0
-      #          workingDir: /usr/src/app/back
+          #              name: chat-claim0
+      #          workingDir: /usr/src/app/chat
       restartPolicy: Always
 #      volumes:
-#        - name: back-claim0
+#        - name: chat-claim0
 #          persistentVolumeClaim:
-#            claimName: back-claim0
+#            claimName: chat-claim0
 status: {}
 
 ---
@@ -121,17 +95,17 @@ metadata:
     traefik.enable: "true"
     traefik.http.routers.front.rule: Host(`front.officesg.forsg.io`)
     traefik.http.routers.front.service: front
-    traefik.http.routers.back.priority: "1"
-    traefik.http.routers.back.rule: HostRegexp(`{domain:.*}`)
-    traefik.http.routers.back.service: back
+    traefik.http.routers.chat.priority: "1"
+    traefik.http.routers.chat.rule: HostRegexp(`{domain:.*}`)
+    traefik.http.routers.chat.service: chat
     traefik.http.services.front.loadbalancer.server.port: "8080"
-    traefik.http.services.back.loadbalancer.server.port: "3000"
+    traefik.http.services.chat.loadbalancer.server.port: "3000"
   creationTimestamp: null
   labels:
-    io.kompose.service: back
+    io.kompose.service: chat
     app.kubernetes.io/name: workadventure-chart
     app.kubernetes.io/instance: release-name
-  name: back
+  name: chat
 spec:
   type: LoadBalancer
   ports:
@@ -145,7 +119,7 @@ spec:
       port: 50051
       targetPort: 50051
   selector:
-    io.kompose.service: back
+    io.kompose.service: chat
 status:
   loadBalancer: {}
 #spec:
@@ -162,17 +136,17 @@ status:
 #  selector:
 #    app.kubernetes.io/name: workadventure-chart
 #    app.kubernetes.io/instance: release-name
-#    app.kubernetes.io/type: "back"
+#    app.kubernetes.io/type: "chat"
 ---
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: back
+  name: chat
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: back
+    name: chat
   minReplicas: 1
   maxReplicas: 100
   metrics:
@@ -188,7 +162,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: back
+  name: chat
   labels:
     app.kubernetes.io/name: workadventure-chart
     app.kubernetes.io/instance: release-name
@@ -199,16 +173,16 @@ metadata:
 spec:
   tls:
     - hosts:
-        - back.officesg.forsg.io
+        - chat.officesg.forsg.io
       secretName: front-tls
   rules:
-    - host: back.officesg.forsg.io
+    - host: chat.officesg.forsg.io
       http:
         paths:
           - path: "/"
             pathType: Prefix
-            backend:
+            chatend:
               service:
-                name: back
+                name: chat
                 port:
                   number: 80
