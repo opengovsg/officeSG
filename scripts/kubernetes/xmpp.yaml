@@ -35,11 +35,15 @@ spec:
       containers:
         - env:
             - name: CTL_ON_CREATE
-              value: 'register   '
+              value: 'register admin ejabberd admin'
             - name: EJABBERD_DOMAIN
+              value: 'ejabberd'
             - name: EJABBERD_PASSWORD
+              value: 'admin'
             - name: EJABBERD_USER
+              value: 'admin'
             - name: JWT_SECRET
+              value: {{EJABBERD_JWT_SECRET}}
           image: {{CONTAINER_REGISTRY}}/officesg:xmpp-{{VERSION}}
           name: ejabberd
           ports:
