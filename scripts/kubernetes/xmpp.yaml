@@ -46,10 +46,10 @@ spec:
             - containerPort: 5443
           resources: {}
       restartPolicy: Always
-      volumes:
-        - name: ejabberd-claim0
-          persistentVolumeClaim:
-            claimName: ejabberd-claim0
+#      volumes:
+#        - name: ejabberd-claim0
+#          persistentVolumeClaim:
+#            claimName: ejabberd-claim0
 status: {}
 ---
 apiVersion: v1
