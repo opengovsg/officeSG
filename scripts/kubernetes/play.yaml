@@ -63,10 +63,15 @@ spec:
             - name: DISABLE_ANONYMOUS
             - name: DISABLE_NOTIFICATIONS
             - name: EJABBERD_DOMAIN
+              value: "ejabberd"
             - name: EJABBERD_JWT_SECRET
+              value: {{EJABBERD_JWT_SECRET}}
             - name: ENABLE_CHAT
+              value: "true"
             - name: ENABLE_CHAT_DISCONNECTED_LIST
+              value: "true"
             - name: ENABLE_CHAT_ONLINE_LIST
+              value: "true"
             - name: ENABLE_CHAT_UPLOAD
             - name: ENABLE_FEATURE_MAP_EDITOR
             - name: ENABLE_OPENAPI_ENDPOINT
