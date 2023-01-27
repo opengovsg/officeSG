@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.27.0 (HEAD)
+    traedocfik.http.services.xmpp.loadbalancer.server.port: "5443"
+    traefik.enable: "true"
+    traefik.http.routers.xmpp.entryPoints: web
+    traefik.http.routers.xmpp.rule: Host(`xmpp.officesg.forsg.io`)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ejabberd
+  name: ejabberd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ejabberd
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.27.0 (HEAD)
+        traedocfik.http.services.xmpp.loadbalancer.server.port: "5443"
+        traefik.enable: "true"
+        traefik.http.routers.xmpp.entryPoints: web
+        traefik.http.routers.xmpp.rule: Host(`xmpp.officesg.forsg.io`)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: ejabberd
+    spec:
+      containers:
+        - env:
+            - name: CTL_ON_CREATE
+              value: 'register   '
+            - name: EJABBERD_DOMAIN
+            - name: EJABBERD_PASSWORD
+            - name: EJABBERD_USER
+            - name: JWT_SECRET
+          image: {{CONTAINER_REGISTRY}}/officesg:xmpp-{{VERSION}}
+          name: ejabberd
+          ports:
+            - containerPort: 5443
+          resources: {}
+      restartPolicy: Always
+      volumes:
+        - name: ejabberd-claim0
+          persistentVolumeClaim:
+            claimName: ejabberd-claim0
+status: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.27.0 (HEAD)
+    traedocfik.http.services.xmpp.loadbalancer.server.port: "5443"
+    traefik.enable: "true"
+    traefik.http.routers.xmpp.entryPoints: web
+    traefik.http.routers.xmpp.rule: Host(`xmpp.officesg.forsg.io`)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ejabberd
+  name: ejabberd
+spec:
+  ports:
+    - name: "5443"
+      port: 5443
+      targetPort: 5443
+  selector:
+    io.kompose.service: ejabberd
+status:
+  loadBalancer: {}
