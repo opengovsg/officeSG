@@ -48,7 +48,8 @@ spec:
         - env:
             - name: EJABBERD_DOMAIN
             - name: EJABBERD_WS_URI
-              value: ws://xmpp.officesg.forsg.io:5443/ws
+#              value: ws://xmpp.officesg.forsg.io:5443/ws
+              value: ws://ejabberd.default.svc.cluster.local:5443/ws
             - name: EMBEDLY_KEY
             - name: ENABLE_CHAT_UPLOAD
             - name: ENABLE_OPENID
