@@ -17,7 +17,7 @@ metadata:
     io.kompose.service: back
   name: back
 spec:
-  replicas: 2
+  replicas: 4
   selector:
     matchLabels:
       io.kompose.service: back
@@ -99,7 +99,10 @@ spec:
             - name: http2
               containerPort: 50051
               protocol: TCP
-          resources: {}
+          resources:
+            requests:
+              cpu: 4000m
+              memory: 4000Mi
           #          volumeMounts:
           #            - mountPath: /usr/src/app
           #              name: back-claim0
@@ -202,7 +205,7 @@ spec:
         - back.{{SERVICE_DOMAIN}}
       secretName: front-tls
   rules:
-    - host: back.{{SERVICE_DOMAIN}}
+    - host: back.officesg.forsg.io
       http:
         paths:
           - path: "/"

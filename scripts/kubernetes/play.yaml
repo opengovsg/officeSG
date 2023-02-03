@@ -17,7 +17,7 @@ metadata:
     io.kompose.service: play
   name: play
 spec:
-  replicas: 2
+  replicas: 4
   selector:
     matchLabels:
       io.kompose.service: play
@@ -134,7 +134,10 @@ spec:
               containerPort: 3000
 #              containerPort: 80
               protocol: TCP
-          resources: {}
+          resources:
+            requests:
+              cpu: 4000m
+              memory: 4000Mi
           #          volumeMounts:
           #            - mountPath: /usr/src/app
           #              name: play-claim0
