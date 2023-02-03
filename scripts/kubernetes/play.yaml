@@ -5,7 +5,7 @@ metadata:
     kompose.cmd: kompose convert
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
-    traefik.http.routers.front.rule: Host(`front.officesg.forsg.io`)
+    traefik.http.routers.front.rule: Host(`front.{{SERVICE_DOMAIN}}`)
     traefik.http.routers.front.service: front
     traefik.http.routers.play.priority: "1"
     traefik.http.routers.play.rule: HostRegexp(`{domain:.*}`)
@@ -29,7 +29,7 @@ spec:
         kompose.cmd: kompose convert
         kompose.version: 1.27.0 (HEAD)
         traefik.enable: "true"
-        traefik.http.routers.front.rule: Host(`front.officesg.forsg.io`)
+        traefik.http.routers.front.rule: Host(`front.{{SERVICE_DOMAIN}}`)
         traefik.http.routers.front.service: front
         traefik.http.routers.play.priority: "1"
         traefik.http.routers.play.rule: HostRegexp(`{domain:.*}`)
@@ -48,13 +48,13 @@ spec:
         - env:
             - name: ADMIN_API_TOKEN
             - name: ALLOWED_CORS_ORIGIN
-#              value: http://play.officesg.forsg.io
+#              value: http://play.{{SERVICE_DOMAIN}}
               value: "*"
             - name: API_URL
 #              value: back:50051
-              value: api.officesg.forsg.io:50051
+              value: api.{{SERVICE_DOMAIN}}:50051
             - name: CHAT_URL
-              value: https://chat.officesg.forsg.io
+              value: https://chat.{{SERVICE_DOMAIN}}
             - name: DEBUG
               value: socket:*
             - name: DEBUG_ERROR_MESSAGES
@@ -79,7 +79,7 @@ spec:
             - name: HOST
               value: 0.0.0.0
             - name: ICON_URL
-              value: https://icon.officesg.forsg.io
+              value: https://icon.{{SERVICE_DOMAIN}}
             - name: JITSI_PRIVATE_MODE
             - name: JITSI_URL
               value: "meet.jit.si"
@@ -97,9 +97,9 @@ spec:
             - name: OPID_SCOPE
             - name: OPID_USERNAME_CLAIM
             - name: PLAY_URL
-              value: https://play.officesg.forsg.io
+              value: https://play.{{SERVICE_DOMAIN}}
             - name: PUBLIC_MAP_STORAGE_URL
-              value: https://map-storage.officesg.forsg.io
+              value: https://map-storage.{{SERVICE_DOMAIN}}
             - name: SECRET_KEY
               value: yourSecretKey
             - name: SERVER_ICON
@@ -119,12 +119,12 @@ spec:
               value: stun:stun.l.google.com:19302
             - name: TURN_PASSWORD
             - name: TURN_SERVER
-              value: turn:coturn.officesg.forsg.io:3478,turns:coturn.officesg.forsg.io:5349
+              value: turn:coturn.{{SERVICE_DOMAIN}}:3478,turns:coturn.{{SERVICE_DOMAIN}}:5349
             - name: TURN_USER
             - name: UPLOADER_URL
-              value: https://uploader.officesg.forsg.io
+              value: https://uploader.{{SERVICE_DOMAIN}}
             - name: VITE_URL
-              value: https://front.officesg.forsg.io
+              value: https://front.{{SERVICE_DOMAIN}}
           #          image: thecodingmachine/nodejs:v2-18-bullseye
           image: {{CONTAINER_REGISTRY}}/officesg:play-{{VERSION}}
           name: play
@@ -154,7 +154,7 @@ metadata:
     kompose.cmd: kompose convert
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
-    traefik.http.routers.front.rule: Host(`front.officesg.forsg.io`)
+    traefik.http.routers.front.rule: Host(`front.{{SERVICE_DOMAIN}}`)
     traefik.http.routers.front.service: front
     traefik.http.routers.play.priority: "1"
     traefik.http.routers.play.rule: HostRegexp(`{domain:.*}`)
@@ -231,10 +231,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - play.officesg.forsg.io
+        - play.{{SERVICE_DOMAIN}}
       secretName: front-tls
   rules:
-    - host: play.officesg.forsg.io
+    - host: play.{{SERVICE_DOMAIN}}
       http:
         paths:
           - path: "/"

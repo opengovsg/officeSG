@@ -25,6 +25,7 @@ jobs:
       CONTAINER_REGISTRY: ${{ secrets.CONTAINER_REGISTRY }}
       KUBECONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
       EJABBERD_JWT_SECRET: ${{ secrets.EJABBERD_JWT_SECRET }}
+      SERVICE_DOMAIN: ${{ secrets.SERVICE_DOMAIN }}
 
     steps:
 

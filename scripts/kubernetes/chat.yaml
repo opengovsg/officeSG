@@ -5,7 +5,7 @@ metadata:
     kompose.cmd: kompose convert
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
-    traefik.http.routers.front.rule: Host(`chat.officesg.forsg.io`)
+    traefik.http.routers.front.rule: Host(`chat.{{SERVICE_DOMAIN}}`)
     traefik.http.routers.front.service: chat
     traefik.http.routers.chat.priority: "1"
     traefik.http.routers.chat.rule: HostRegexp(`{domain:.*}`)
@@ -29,7 +29,7 @@ spec:
         kompose.cmd: kompose convert
         kompose.version: 1.27.0 (HEAD)
         traefik.enable: "true"
-        traefik.http.routers.front.rule: Host(`api.officesg.forsg.io`)
+        traefik.http.routers.front.rule: Host(`api.{{SERVICE_DOMAIN}}`)
         traefik.http.routers.front.service: chat
         traefik.http.routers.chat.priority: "1"
         traefik.http.routers.chat.rule: HostRegexp(`{domain:.*}`)
@@ -48,21 +48,21 @@ spec:
         - env:
             - name: EJABBERD_DOMAIN
             - name: EJABBERD_WS_URI
-#              value: ws://xmpp.officesg.forsg.io:5443/ws
+#              value: ws://xmpp.{{SERVICE_DOMAIN}}:5443/ws
               value: ws://ejabberd.default.svc.cluster.local:5443/ws
             - name: EMBEDLY_KEY
             - name: ENABLE_CHAT_UPLOAD
             - name: ENABLE_OPENID
             - name: ICON_URL
-              value: https://icon.officesg.forsg.io
+              value: https://icon.{{SERVICE_DOMAIN}}
             - name: PLAY_URL
-              value: https://play.officesg.forsg.io
+              value: https://play.{{SERVICE_DOMAIN}}
             - name: STARTUP_COMMAND_2
               value: ../npm-install.sh
             - name: STARTUP_COMMAND_3
               value: npm run typesafe-i18n
             - name: UPLOADER_URL
-              value: https://uploader.officesg.forsg.io
+              value: https://uploader.{{SERVICE_DOMAIN}}
           image: {{CONTAINER_REGISTRY}}/officesg:chat-{{VERSION}}
           name: chat
           ports:
@@ -94,7 +94,7 @@ metadata:
     kompose.cmd: kompose convert
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
-    traefik.http.routers.front.rule: Host(`front.officesg.forsg.io`)
+    traefik.http.routers.front.rule: Host(`front.{{SERVICE_DOMAIN}}`)
     traefik.http.routers.front.service: front
     traefik.http.routers.chat.priority: "1"
     traefik.http.routers.chat.rule: HostRegexp(`{domain:.*}`)
@@ -174,10 +174,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - chat.officesg.forsg.io
+        - chat.{{SERVICE_DOMAIN}}
       secretName: front-tls
   rules:
-    - host: chat.officesg.forsg.io
+    - host: chat.{{SERVICE_DOMAIN}}
       http:
         paths:
           - path: "/"

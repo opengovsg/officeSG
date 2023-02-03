@@ -5,7 +5,7 @@ metadata:
     kompose.cmd: kompose convert
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
-    traefik.http.routers.front.rule: Host(`api.officesg.forsg.io`)
+    traefik.http.routers.front.rule: Host(`api.{{SERVICE_DOMAIN}}`)
     traefik.http.routers.front.service: back
     traefik.http.routers.back.priority: "1"
     traefik.http.routers.back.rule: HostRegexp(`{domain:.*}`)
@@ -29,7 +29,7 @@ spec:
         kompose.cmd: kompose convert
         kompose.version: 1.27.0 (HEAD)
         traefik.enable: "true"
-        traefik.http.routers.front.rule: Host(`api.officesg.forsg.io`)
+        traefik.http.routers.front.rule: Host(`api.{{SERVICE_DOMAIN}}`)
         traefik.http.routers.front.service: back
         traefik.http.routers.back.priority: "1"
         traefik.http.routers.back.rule: HostRegexp(`{domain:.*}`)
@@ -72,7 +72,7 @@ spec:
             - name: PLAYER_VARIABLES_MAX_TTL
             - name: PROMETHEUS_AUTHORIZATION_TOKEN
             - name: PUBLIC_MAP_STORAGE_URL
-              value: http://map-storage.officesg.forsg.io
+              value: http://map-storage.{{SERVICE_DOMAIN}}
             - name: REDIS_HOST
               value: back-redis.default.svc.cluster.local
             - name: SECRET_JITSI_KEY
@@ -119,7 +119,7 @@ metadata:
     kompose.cmd: kompose convert
     kompose.version: 1.27.0 (HEAD)
     traefik.enable: "true"
-    traefik.http.routers.front.rule: Host(`front.officesg.forsg.io`)
+    traefik.http.routers.front.rule: Host(`front.{{SERVICE_DOMAIN}}`)
     traefik.http.routers.front.service: front
     traefik.http.routers.back.priority: "1"
     traefik.http.routers.back.rule: HostRegexp(`{domain:.*}`)
@@ -199,10 +199,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - back.officesg.forsg.io
+        - back.{{SERVICE_DOMAIN}}
       secretName: front-tls
   rules:
-    - host: back.officesg.forsg.io
+    - host: back.{{SERVICE_DOMAIN}}
       http:
         paths:
           - path: "/"

@@ -4,7 +4,7 @@
 # Automatically deploys the "gateway" microservice on push.
 #
 
-name: Deploy Back
+name: Deploy Back Demo
 
 on:
   push:
@@ -22,9 +22,9 @@ jobs:
 
     env:
       VERSION: ${{ github.sha }}
-      CONTAINER_REGISTRY: ${{ secrets.CONTAINER_REGISTRY }}
-      KUBECONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
-      SERVICE_DOMAIN: ${{ secrets.SERVICE_DOMAIN }}
+      CONTAINER_REGISTRY: ${{ secrets.CONTAINER_REGISTRY_DEMO }}
+      KUBECONFIG_DATA: ${{ secrets.KUBE_CONFIG_DEMO }}
+      SERVICE_DOMAIN: ${{ secrets.SERVICE_DOMAIN_DEMO }}
 
     steps:
 

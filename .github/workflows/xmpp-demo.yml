@@ -4,14 +4,14 @@
 # Automatically deploys the "gateway" microservice on push.
 #
 
-name: Deploy Back
+name: Deploy xmpp demo
 
 on:
   push:
     branches:
       - develop
     paths:
-      - 'back/**'
+      - 'xmpp/**'
   workflow_dispatch:
 
 jobs:
@@ -22,9 +22,10 @@ jobs:
 
     env:
       VERSION: ${{ github.sha }}
-      CONTAINER_REGISTRY: ${{ secrets.CONTAINER_REGISTRY }}
-      KUBECONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
-      SERVICE_DOMAIN: ${{ secrets.SERVICE_DOMAIN }}
+      CONTAINER_REGISTRY: ${{ secrets.CONTAINER_REGISTRY_DEMO }}
+      KUBECONFIG_DATA: ${{ secrets.KUBE_CONFIG_DEMO }}
+      EJABBERD_JWT_SECRET: ${{ secrets.EJABBERD_JWT_SECRET_DEMO }}
+      SERVICE_DOMAIN: ${{ secrets.SERVICE_DOMAIN_DEMO }}
 
     steps:
 
@@ -46,13 +47,13 @@ jobs:
       # Builds the Docker image.
       #
       - name: Build
-        run: ./scripts/build-image.sh back
+        run: ./scripts/build-image.sh xmpp
 
       #
       # Publishes the Docker image to the container registry.
       #
       - name: Publish
-        run: ./scripts/push-image.sh back
+        run: ./scripts/push-image.sh xmpp
 
       #
       # Installs Node.js (for figit).
@@ -92,4 +93,4 @@ jobs:
       # Expands the configuration template and deploys the microservice.
       #
       - name: Deploy
-        run: npx figit ./scripts/kubernetes/back.yaml --output yaml | kubectl apply -f -
+        run: npx figit ./scripts/kubernetes/xmpp.yaml --output yaml | kubectl apply -f -

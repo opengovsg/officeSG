@@ -24,6 +24,7 @@ jobs:
       VERSION: ${{ github.sha }}
       CONTAINER_REGISTRY: ${{ secrets.CONTAINER_REGISTRY }}
       KUBECONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
+      SERVICE_DOMAIN: ${{ secrets.SERVICE_DOMAIN }}
 
     steps:
 
