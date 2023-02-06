@@ -99,10 +99,10 @@ spec:
             - name: http2
               containerPort: 50051
               protocol: TCP
-          resources:
-            requests:
-              cpu: 1000m
-              memory: 4000Mi
+          resources: {}
+#            requests:
+#              cpu: 1000m
+#              memory: 4000Mi
           #          volumeMounts:
           #            - mountPath: /usr/src/app
           #              name: back-claim0
