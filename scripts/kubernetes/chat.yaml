@@ -78,7 +78,7 @@ spec:
           resources:
             requests:
               cpu: 500m
-              memory: 1000Mi
+              memory: 6000Mi
           #          volumeMounts:
           #            - mountPath: /usr/src/app
           #              name: chat-claim0
