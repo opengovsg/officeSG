@@ -74,7 +74,11 @@ spec:
             - name: http2
               containerPort: 50051
               protocol: TCP
-          resources: {}
+#          resources: {}
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1000Mi
           #          volumeMounts:
           #            - mountPath: /usr/src/app
           #              name: chat-claim0
