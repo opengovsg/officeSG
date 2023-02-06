@@ -205,7 +205,7 @@ spec:
         - back.{{SERVICE_DOMAIN}}
       secretName: front-tls
   rules:
-    - host: back.officesg.forsg.io
+    - host: back.{{SERVICE_DOMAIN}}
       http:
         paths:
           - path: "/"
