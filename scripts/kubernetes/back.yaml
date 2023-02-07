@@ -176,7 +176,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: back
-  minReplicas: 1
+  minReplicas: 3
   maxReplicas: 100
   metrics:
     - type: Resource
