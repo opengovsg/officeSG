@@ -62,5 +62,7 @@ export function getIceServersConfig(user: UserSimplePeerInterface): RTCIceServer
             credential: user.webRtcPassword || TURN_PASSWORD,
         });
     }
+    console.log("Printing ice server config");
+    console.log(config);
     return config;
 }

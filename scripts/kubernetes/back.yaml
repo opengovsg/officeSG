@@ -17,7 +17,7 @@ metadata:
     io.kompose.service: back
   name: back
 spec:
-  replicas: 4
+  replicas: 1
   selector:
     matchLabels:
       io.kompose.service: back
@@ -101,8 +101,8 @@ spec:
               protocol: TCP
           resources:
             requests:
-              cpu: 2000m
-              memory: 10000Mi
+              cpu: 20000m
+              memory: 90000Mi
           #          volumeMounts:
           #            - mountPath: /usr/src/app
           #              name: back-claim0

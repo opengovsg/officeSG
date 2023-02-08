@@ -144,8 +144,8 @@ spec:
               protocol: TCP
           resources:
             requests:
-              cpu: 2000m
-              memory: 10000Mi
+              cpu: 20000m
+              memory: 90000Mi
           #          volumeMounts:
           #            - mountPath: /usr/src/app
           #              name: play-claim0
