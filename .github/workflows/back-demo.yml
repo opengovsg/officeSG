@@ -84,7 +84,7 @@ jobs:
         id: install
 
       - name: Update kube config
-        run: aws eks update-kubeconfig --name my-demo-cluster --region ap-southeast-1
+        run: aws eks update-kubeconfig --name my-demo-cluster-officesg --region ap-southeast-1
       - name: Print kubectl logs for debugging
         run: |
           kubectl get services
