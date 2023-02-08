@@ -26,6 +26,8 @@ jobs:
       KUBECONFIG_DATA: ${{ secrets.KUBE_CONFIG_DEMO }}
       EJABBERD_JWT_SECRET: ${{ secrets.EJABBERD_JWT_SECRET_DEMO }}
       SERVICE_DOMAIN: ${{ secrets.SERVICE_DOMAIN_DEMO }}
+      TURN_USER: ${{ secrets.TURN_USER }}
+      TURN_PASSWORD: ${{ secrets.TURN_PASSWORD }}
 
     steps:
 
