@@ -118,12 +118,15 @@ spec:
             - name: STUN_SERVER
               value: stun:stun.l.google.com:19302
             - name: TURN_PASSWORD
-              value: "WorkAdventure123"
+#              value: "WorkAdventure123"
+              value: "openrelayproject"
             - name: TURN_SERVER
 #              value: turn:coturn.{{SERVICE_DOMAIN}}:3478,turns:coturn.{{SERVICE_DOMAIN}}:5349
-              value: turn:coturn.workadventu.re:443,turns:coturn.workadventu.re:443
+#              value: turn:coturn.workadventu.re:443,turns:coturn.workadventu.re:443
+              value: turn:openrelay.metered.ca:80
             - name: TURN_USER
-              value: "workadventure"
+#              value: "workadventure"
+              value: "openrelayproject"
             - name: UPLOADER_URL
               value: https://uploader.{{SERVICE_DOMAIN}}
             - name: VITE_URL
