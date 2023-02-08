@@ -118,10 +118,12 @@ spec:
             - name: STUN_SERVER
               value: stun:stun.l.google.com:19302
             - name: TURN_PASSWORD
+              value: "WorkAdventure123"
             - name: TURN_SERVER
 #              value: turn:coturn.{{SERVICE_DOMAIN}}:3478,turns:coturn.{{SERVICE_DOMAIN}}:5349
               value: turn:coturn.workadventu.re:443,turns:coturn.workadventu.re:443
             - name: TURN_USER
+              value: "workadventure"
             - name: UPLOADER_URL
               value: https://uploader.{{SERVICE_DOMAIN}}
             - name: VITE_URL
